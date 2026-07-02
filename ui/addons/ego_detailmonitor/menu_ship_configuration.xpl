@@ -1021,9 +1021,9 @@ function menu.cleanup()
 	end
 
 	-- kuertee start: callback
-	if menu.uix_callbacks ["cleanup"] then
-		for uix_id, uix_callback in pairs (menu.uix_callbacks ["cleanup"]) do
-			uix_callback ()
+	if menu.uix_callbacks["cleanup"] then
+		for uix_id, uix_callback in pairs(menu.uix_callbacks["cleanup"]) do
+			uix_callback()
 		end
 	end
 	-- kuertee end: callback
@@ -1905,9 +1905,9 @@ end
 
 function menu.buttonSelectPaintMod(entry, row, col)
 	-- kuertee start: callback
-	if menu.uix_callbacks ["buttonSelectPaintMod_onStart"] then
-		for uix_id, uix_callback in pairs (menu.uix_callbacks ["buttonSelectPaintMod_onStart"]) do
-			uix_callback (entry)
+	if menu.uix_callbacks["buttonSelectPaintMod_onStart"] then
+		for uix_id, uix_callback in pairs(menu.uix_callbacks["buttonSelectPaintMod_onStart"]) do
+			uix_callback(entry)
 		end
 	end
 	-- kuertee end: callback
@@ -4657,9 +4657,9 @@ function menu.getDataAndDisplay(upgradeplan, crew, newedit, firsttime, noundo, s
 	end
 
 	-- kuertee start: callback
-	if menu.uix_callbacks ["getDataAndDisplay_beforeDisplay"] then
-		for uix_id, uix_callback in pairs (menu.uix_callbacks ["getDataAndDisplay_beforeDisplay"]) do
-			uix_callback ()
+	if menu.uix_callbacks["getDataAndDisplay_beforeDisplay"] then
+		for uix_id, uix_callback in pairs(menu.uix_callbacks["getDataAndDisplay_beforeDisplay"]) do
+			uix_callback()
 		end
 	end
 	-- kuertee end: callback
@@ -5680,15 +5680,15 @@ function menu.displaySlots(frame, firsttime)
 											end
 
 											-- start: mycu call-back
-											if menu.uix_callbacks ["displaySlots_on_before_create_button_mouseovertext"] then
+											if menu.uix_callbacks["displaySlots_on_before_create_button_mouseovertext"] then
 												if not mouseovertext then
 													mouseovertext = ""
 												end
 												if not untruncatedExtraText then
 													untruncatedExtraText = ""
 												end
-												for uix_id, uix_callback in pairs (menu.uix_callbacks ["displaySlots_on_before_create_button_mouseovertext"]) do
-													result = uix_callback (group[i].macro, plandata.macro, mouseovertext)
+												for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_before_create_button_mouseovertext"]) do
+													result = uix_callback(group[i].macro, plandata.macro, mouseovertext)
 													if result then
 														mouseovertext = result.mouseovertext
 													end
@@ -5966,15 +5966,15 @@ function menu.displaySlots(frame, firsttime)
 							end
 
 							-- start: mycu call-back
-							if menu.uix_callbacks ["displaySlots_on_before_create_button_mouseovertext"] then
+							if menu.uix_callbacks["displaySlots_on_before_create_button_mouseovertext"] then
 								if not mouseovertext then
 									mouseovertext = ""
 								end
 								if not untruncatedExtraText then
 									untruncatedExtraText = ""
 								end
-								for uix_id, uix_callback in pairs (menu.uix_callbacks ["displaySlots_on_before_create_button_mouseovertext"]) do
-									result = uix_callback (group[i].macro, plandata.macro, mouseovertext)
+								for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_before_create_button_mouseovertext"]) do
+									result = uix_callback(group[i].macro, plandata.macro, mouseovertext)
 									if result then
 										mouseovertext = result.mouseovertext
 									end
@@ -6715,9 +6715,9 @@ function menu.displayModifyPaintSlots(frame)
 			for _, entry in ipairs(menu.modwares[entry.modclass]) do
 
 				-- kuertee start: callback
-				if menu.uix_callbacks ["displayModifyPaintSlots_assigningPaintsToGroups"] then
-					for uix_id, uix_callback in pairs (menu.uix_callbacks ["displayModifyPaintSlots_assigningPaintsToGroups"]) do
-						count = uix_callback (entry, categoryQuality, count)
+				if menu.uix_callbacks["displayModifyPaintSlots_assigningPaintsToGroups"] then
+					for uix_id, uix_callback in pairs(menu.uix_callbacks["displayModifyPaintSlots_assigningPaintsToGroups"]) do
+						count = uix_callback(entry, categoryQuality, count)
 					end
 				end
 				-- kuertee end: callback
@@ -6925,9 +6925,9 @@ function menu.displayModifyPaintSlots(frame)
 					end
 
 					-- kuertee start: callback
-					if menu.uix_callbacks ["displayModifyPaintSlots_onShowingButton"] then
-						for uix_id, uix_callback in pairs (menu.uix_callbacks ["displayModifyPaintSlots_onShowingButton"]) do
-							result = uix_callback (amount, active, installicon, config, row, col, entry)
+					if menu.uix_callbacks["displayModifyPaintSlots_onShowingButton"] then
+						for uix_id, uix_callback in pairs(menu.uix_callbacks["displayModifyPaintSlots_onShowingButton"]) do
+							result = uix_callback(amount, active, installicon, config, row, col, entry)
 							if result then
 								amount = result.amount
 								installicon = result.installicon
@@ -7640,9 +7640,9 @@ function menu.checkEquipment(removedEquipment, currentEquipment, newEquipment, r
 				end
 
 				-- kuertee start: callback
-				if menu.uix_callbacks ["checkEquipment_onUpgradeSlots"] then
-					for uix_id, uix_callback in pairs (menu.uix_callbacks ["checkEquipment_onUpgradeSlots"]) do
-						uix_callback (upgradetype, newEquipment, objectEquipment, macro)
+				if menu.uix_callbacks["checkEquipment_onUpgradeSlots"] then
+					for uix_id, uix_callback in pairs(menu.uix_callbacks["checkEquipment_onUpgradeSlots"]) do
+						uix_callback(upgradetype, newEquipment, objectEquipment, macro)
 					end
 				end
 				-- kuertee end: callback
@@ -8985,9 +8985,9 @@ function menu.displayModifyPlan(frame)
 			end
 
 			-- kuertee start: callback
-			if menu.uix_callbacks ["displayModifyPlan_onSelectedShips"] then
-				for uix_id, uix_callback in pairs (menu.uix_callbacks ["displayModifyPlan_onSelectedShips"]) do
-					uix_callback (ftable)
+			if menu.uix_callbacks["displayModifyPlan_onSelectedShips"] then
+				for uix_id, uix_callback in pairs(menu.uix_callbacks["displayModifyPlan_onSelectedShips"]) do
+					uix_callback(ftable)
 				end
 			end
 			-- kuertee end: callback
@@ -9261,10 +9261,10 @@ function menu.evaluateShipOptions()
 				local name, infolibrary, shiptypename, primarypurpose, shipicon, ware = GetMacroData(macro, "name", "infolibrary", "shiptypename", "primarypurpose", "icon", "ware")
 
 				-- start: alexandretk call-back
-				if menu.uix_callbacks ["evaluateShipOptions_override_shiptypename"] then
+				if menu.uix_callbacks["evaluateShipOptions_override_shiptypename"] then
 					local shiptypename_override
-					for uix_id, uix_callback in pairs (menu.uix_callbacks ["evaluateShipOptions_override_shiptypename"]) do
-						shiptypename_override = uix_callback (shiptypename, shipicon, menu.class)
+					for uix_id, uix_callback in pairs(menu.uix_callbacks["evaluateShipOptions_override_shiptypename"]) do
+						shiptypename_override = uix_callback(shiptypename, shipicon, menu.class)
 						if shiptypename_override then
 							shiptypename = shiptypename_override
 							break
@@ -9438,7 +9438,7 @@ function menu.createTitleBar(frame)
 		-- class
 		row[1]:createDropDown(classOptions, { startOption = menu.class, active = (not menu.isReadOnly) and (#classOptions > 0), helpOverlayID = "shipconfig_classoptions", helpOverlayText = " ", helpOverlayHighlightOnly = true }):setTextProperties(config.dropDownTextProperties)
 		row[1].handlers.onDropDownConfirmed = menu.dropdownShipClass
-		-- ships
+        -- ships
 		local dropDownIconProperties = {
 			width = menu.titleData.height / 2,
 			height = menu.titleData.height / 2,
@@ -9470,9 +9470,9 @@ function menu.createTitleBar(frame)
 		-- save
 
 		-- mycu start: callback
-		if menu.uix_callbacks ["displaySlots_on_before_create_store_loadout_button"] then
-			for uix_id, uix_callback in pairs (menu.uix_callbacks ["displaySlots_on_before_create_store_loadout_button"]) do
-				uix_callback ()
+		if menu.uix_callbacks["displaySlots_on_before_create_store_loadout_button"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_before_create_store_loadout_button"]) do
+				uix_callback()
 			end
 		end
 		-- mycu end: callback
@@ -9481,9 +9481,9 @@ function menu.createTitleBar(frame)
 		row[4].handlers.onClick = menu.buttonTitleSave
 
 		-- mycu start: callback
-		if menu.uix_callbacks ["displaySlots_on_after_create_store_loadout_button"] then
-			for uix_id, uix_callback in pairs (menu.uix_callbacks ["displaySlots_on_after_create_store_loadout_button"]) do
-				uix_callback ()
+		if menu.uix_callbacks["displaySlots_on_after_create_store_loadout_button"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_after_create_store_loadout_button"]) do
+				uix_callback()
 			end
 		end
 		-- mycu end: callback
@@ -9499,6 +9499,29 @@ function menu.createTitleBar(frame)
 		row[7].handlers.onClick = function () return menu.undoHelper(false) end
 
 		ftable:addConnection(1, 3, true)
+		
+		-- joul start: callback
+		if menu.uix_callbacks["uix_fire_createTitleBar_on_create_controls"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["uix_fire_createTitleBar_on_create_controls"]) do
+				uix_callback(frame, ftable, row, {
+				classOptions = classOptions,
+				shipOptions = shipOptions,
+				curShipOption = curShipOption,
+				loadoutOptions = loadoutOptions,
+				columns = {
+					shipclass = 1,
+					ship = 2,
+					loadout = 3,
+					save = 4,
+					resetcamera = 5,
+					undo = 6,
+					redo = 7
+				}
+			})
+			end
+		end
+		-- joul end: callback
+		
 	end
 
 	menu.topRows.ship = nil
@@ -11265,9 +11288,9 @@ function menu.prepareModWares()
 	end
 
 	-- kuertee start: callback
-	if menu.uix_callbacks ["prepareModWares_onEnd"] then
-		for uix_id, uix_callback in pairs (menu.uix_callbacks ["prepareModWares_onEnd"]) do
-			uix_callback (config)
+	if menu.uix_callbacks["prepareModWares_onEnd"] then
+		for uix_id, uix_callback in pairs(menu.uix_callbacks["prepareModWares_onEnd"]) do
+			uix_callback(config)
 		end
 	end
 	-- kuertee end: callback
@@ -11323,9 +11346,9 @@ function menu.insertWare(array, objectarray, category, ware, count, pricetype)
 				price = menu.crew.price
 			end
 			-- kuertee start: callback
-			if menu.uix_callbacks ["insertWare_onPriceCalculation"] then
-				for uix_id, uix_callback in pairs (menu.uix_callbacks ["insertWare_onPriceCalculation"]) do
-					price = uix_callback (price, pricetype, ware)
+			if menu.uix_callbacks["insertWare_onPriceCalculation"] then
+				for uix_id, uix_callback in pairs(menu.uix_callbacks["insertWare_onPriceCalculation"]) do
+					price = uix_callback(price, pricetype, ware)
 				end
 			end
 			-- kuertee end: callback
@@ -11689,8 +11712,8 @@ function menu.registerCallback(callbackName, callbackFunction, id)
     -- note 3: new callbacks can be added or existing callbacks can be edited. but commit your additions/changes to the mod's GIT repository.
     -- note 4: search for the callback names to see where they are executed.
     -- note 5: if a callback requires a return value, return it in an object var. e.g. "display_on_set_room_active" requires a return of {active = true | false}.
-    if menu.uix_callbacks [callbackName] == nil then
-        menu.uix_callbacks [callbackName] = {}
+    if menu.uix_callbacks[callbackName] == nil then
+        menu.uix_callbacks[callbackName] = {}
     end
     if not menu.uix_callbacks[callbackName][id] then
         if not id then
@@ -11786,6 +11809,24 @@ function menu.updateCallbacksNow()
         end
     end
 end
+
 -- kuertee end
+
+-- start
+
+Helper.uix_shipConfigurationMenu = menu
+
+function menu.uix_fire_createTitleBar_on_create_controls(frame, ftable, row, data)
+    local callbackName = "createTitleBar_on_create_controls"
+
+    if menu.uix_callbacks[callbackName] then
+        for uix_id, uix_callback in pairs(menu.uix_callbacks[callbackName]) do
+            uix_callback(frame, ftable, row, menu, data)
+        end
+    end
+end
+
+-- end
+
 
 init()
