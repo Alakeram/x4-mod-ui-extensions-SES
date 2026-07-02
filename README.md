@@ -11,8 +11,8 @@ FOR PLAYERS:
 - Protected UI Mode: I've been playing with Protected UI Mode active for the last 3 weeks with no adverse effects. I now recommend that this mode is active and that the pop-up message about disabling it is ignored. Only deactivate this mode if you experience something unexpected. Unfortunately, activating/deactivating this mode still halts all UI, so either 1. Activate/deactivate Protected UI Mode and then restart the game at the operating system level. E.g. Task Manager, Steam, etc. OR 2. Activate/deactivate Protected UI Mode BEFORE this mod is activated.
 
 FOR MODDERS:
-- New feature: new callbacks by ChemOdun.
-- New feature: Deactivating a mod in the Settings > Extensions menu triggers the UI event "uix_deactivate_mod" with the mod's id. Listen for this event to from the mod's MD to, for example, destroy npcs, cancel scripts, etc. More information is in the "Options Menu: Deactivating a mod" section.
+- New feature: in gameoptions for the controls management by ChemODun.
+- New feature: Deactivating a mod in the Settings > Extensions menu triggers the UI event "uix_deactivate_mod" with the mod's id. Listen for this event at the mod's MD to, for example, destroy npcs, cancel scripts, etc. More information is in the "Options Menu: Deactivating a mod" section.
 - New feature: uix_addUIXPropertyOwnedTab() adds new category tabs in the Property Owned section. E.g. my mods Crime has Consequences mod, Emergent Missions mod, Military Exercises mod, and Wear and Tear mod use this to add their category tabs. More information is in the "Map Menu: Custom Property Owned category tabs".
 
 Protected UI Mode
