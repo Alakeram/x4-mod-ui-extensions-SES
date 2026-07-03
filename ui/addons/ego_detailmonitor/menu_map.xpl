@@ -2019,6 +2019,9 @@ function menu.init_kuertee ()
 	-- kuertee start: open/close deployables
 	__userdata_uix_menu_map.savedCollapsedDeployables = __userdata_uix_menu_map.savedCollapsedDeployables or {}
 	-- kuertee end: open/close deployables
+	-- kuertee start: open/close objectlist sections
+	__userdata_uix_menu_map.savedCollapsedObjectListSections = __userdata_uix_menu_map.savedCollapsedObjectListSections or {}
+	-- kuertee end: open/close objectlist sections
 	-- kuertee start: uix properties owned tab
 	menu.uix_propertiesOwnedTabDataById = {}
 	menu.uix_propertiesOwnedTab_rendering = nil
@@ -9424,7 +9427,7 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 
 	-- kuertee start: open/close deployables
 	local uix_openCloseDeployables_headerRow
-	if menu.propertyMode == "deployables" and #array > 0 then
+	if menu.infoTableMode == "propertyowned" and menu.propertyMode == "deployables" and #array > 0 then
 		local row = ftable:addRow(true, { bgColor = Color["row_background_blue"] })
 		uix_openCloseDeployables_headerRow = row
 		row[2]:setColSpan(4 + maxicons):createText(name, Helper.headerRowCenteredProperties)
@@ -9437,17 +9440,29 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 		end
 		-- name = name .. " (" .. tostring(#array) .. ")"
 		if name then
-			local propertySectionRow = ftable:addRow(true, Helper.headerRowProperties)
-			propertySectionRow[1]:setColSpan(5 + maxicons):createText(name, Helper.headerRowCenteredProperties)
-			-- propertySectionRow[2]:setColSpan(4 + maxicons):createText(name, Helper.headerRowCenteredProperties)
-			-- propertySectionRow[1]:createButton({active = #menu.uix_propertiesOwnedTab_renderingPropertySection.components > 1}):setText((not menu.uix_propertiesOwnedTab_renderingPropertySection.isExpanded) and "-" or "+", { halign = "center" })
-			-- propertySectionRow[1].handlers.onClick = function()
+			local uix_propertySectionRow = ftable:addRow(true, Helper.headerRowProperties)
+			uix_propertySectionRow[1]:setColSpan(5 + maxicons):createText(name, Helper.headerRowCenteredProperties)
+			-- uix_propertySectionRow[2]:setColSpan(4 + maxicons):createText(name, Helper.headerRowCenteredProperties)
+			-- uix_propertySectionRow[1]:createButton({active = #menu.uix_propertiesOwnedTab_renderingPropertySection.components > 1}):setText((not menu.uix_propertiesOwnedTab_renderingPropertySection.isExpanded) and "-" or "+", { halign = "center" })
+			-- uix_propertySectionRow[1].handlers.onClick = function()
 			-- 	menu.uix_propertiesOwnedTab_renderingPropertySection.isExpanded = not menu.uix_propertiesOwnedTab_renderingPropertySection.isExpanded
 			-- 	Helper.debugText_forced("isExpanded", menu.uix_propertiesOwnedTab_renderingPropertySection.isExpanded)
 			-- 	menu.refreshInfoFrame()
 			-- end
 		end
 	-- kuertee end: uix properties owned tab
+
+	-- kuertee start: open/close objectlist sections
+	elseif menu.infoTableMode == "objectlist" then
+		local row = ftable:addRow(true, Helper.headerRowProperties)
+		row[2]:setColSpan(4 + maxicons):createText(name, Helper.headerRowCenteredProperties)
+		local uix_isExpanded = __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
+		row[1]:createButton({ scaling = false, height = Helper.headerRowCenteredProperties.minRowHeight }):setText(uix_isExpanded and "-" or "+", { scaling = true, halign = "center" })
+		row[1].handlers.onClick = function ()
+			__userdata_uix_menu_map.savedCollapsedObjectListSections[name] = not __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
+			menu.refreshInfoFrame()
+		end
+	-- kuertee end: open/close objectlist sections
 
 	elseif name then
 		local row = ftable:addRow(false, Helper.headerRowProperties)
@@ -9470,7 +9485,7 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 	if #array > 0 then
 
 		-- kuertee start: open/close deployables
-		if menu.propertyMode == "deployables" then
+		if menu.infoTableMode == "propertyowned" and menu.propertyMode == "deployables" then
 			local uix_openCloseDeployables_names = {}
 			local uix_openCloseDeployables_componentsByName = {}
 			local uix_openCloseDeployables_rowByName = {}
@@ -9515,15 +9530,25 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 				end
 			end
 
-			uix_openCloseDeployables_headerRow[1]:createButton({active = true}):setText(uix_isAnyExpanded and "-" or "+", { halign = "center" })
+			uix_openCloseDeployables_headerRow[1]:createButton({active = true, height = Helper.headerRowCenteredProperties.minRowHeight}):setText(uix_isAnyExpanded and "-" or "+", { halign = "center" })
 			uix_openCloseDeployables_headerRow[1].handlers.onClick = function()
 				for _, uix_name in ipairs(uix_openCloseDeployables_names) do
 					__userdata_uix_menu_map.savedCollapsedDeployables[uix_name] = uix_isAnyExpanded
 				end
 				menu.refreshInfoFrame()
 			end
-		else
 		-- kuertee end: open/close deployables
+
+		-- kuertee start: open/close objectlist sections
+		elseif menu.infoTableMode == "objectlist" then
+			local uix_isExpanded = __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
+			if uix_isExpanded then
+				for _, component in ipairs(array) do
+					numdisplayed = menu.createPropertyRow(instance, ftable, propertysectionrowgroup, component, 0, nil, showmodules, hidesubordinates, numdisplayed, sorter)
+				end
+			end
+		else
+		-- kuertee end: open/close objectlist sections
 
 			for _, component in ipairs(array) do
 				numdisplayed = menu.createPropertyRow(instance, ftable, propertysectionrowgroup, component, 0, nil, showmodules, hidesubordinates, numdisplayed, sorter)
@@ -9544,8 +9569,19 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 	if numdisplayed == prevnumdisplayed and propertysectionrowgroup then
 	-- kuertee end: uix properties owned tab
 
-		row = propertysectionrowgroup:addRow(id, { interactive = false })
-		row[2]:setColSpan(4 + maxicons):createText(nonetext)
+		-- kuertee start: open/close objectlist sections
+		if menu.infoTableMode == "objectlist" then
+			local uix_isExpanded = __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
+			if uix_isExpanded then
+				row = propertysectionrowgroup:addRow(id, { interactive = false })
+				row[2]:setColSpan(4 + maxicons):createText(nonetext)
+			end
+		else
+		-- kuertee end: open/close objectlist sections
+
+			row = propertysectionrowgroup:addRow(id, { interactive = false })
+			row[2]:setColSpan(4 + maxicons):createText(nonetext)
+		end
 	end
 
 	return numdisplayed
@@ -32640,6 +32676,13 @@ end
 
 function menu.updateSelectedComponents(modified, keepselection, changedComponent, changedrow)
 	local components = {}
+
+	-- kuertee start: open/close objectlist sections
+	-- note: with collapsible objectlist sections, rows from GetSelectedRows() below is not a suitable source for restoring selected objects.
+	-- so, when keepselection and isplayerowned, component is forced into components{} when infoTableMode == "objectlist".
+	-- search for "keepselection and isplayerowned is forced into components{}" to find the relevant block of code.
+	-- kuertee end: open/close objectlist sections
+
 	local rows, highlightedborderrow = GetSelectedRows(menu.infoTable)
 
 	-- determine whether the component we are changing is now selected or unselected
@@ -32736,6 +32779,17 @@ function menu.updateSelectedComponents(modified, keepselection, changedComponent
 				if (menu.objectMode ~= "deployables") and (isdeployable or Helper.isComponentClass(classid, "lockbox") or Helper.isComponentClass(classid, "collectablewares")) then
 					table.insert(components, component)
 				end
+
+				-- kuertee start: open/close objectlist sections
+				-- note: with collapsible objectlist sections, rows from GetSelectedRows() below is not a suitable source for restoring selected objects.
+				-- so, when keepselection and isplayerowned, component is forced into components{} when infoTableMode == "objectlist".
+				-- search for "keepselection and isplayerowned is forced into components{}" to find the relevant block of code.
+				if keepselection then
+					if isplayerowned then
+						table.insert(components, component)
+					end
+				end
+				-- kuertee end: open/close objectlist sections
 			end
 		end
 	end
