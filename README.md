@@ -2,18 +2,18 @@ UI Extensions and HUD
 https://www.nexusmods.com/x4foundations/mods/552
 Code: https://github.com/kuertee/x4-mod-ui-extensions
 by kuertee.
-Contributors: AlexandreTK, ChemODun, Damonya, DrWhoKnows, DmytroK, Erixon, Faremen, Forleyor, HYLT2233, IALuir, Mycu, Runekn, sticeIO.
+Contributors: AlexandreTK, ChemODun, Damonya, DrWhoKnows, DmytroK, Erixon, Faremen, Forleyor, Joul, HYLT2233, IALuir, Mycu, Runekn, sticeIO.
 
 Updates
 =======
-v9.0.0.6, 27 Jun 2026:
+v9.0.0.7, 4 Jul 2026:
 FOR PLAYERS:
-- Protected UI Mode: I've been playing with Protected UI Mode active for the last 3 weeks with no adverse effects. I now recommend that this mode is active and that the pop-up message about disabling it is ignored. Only deactivate this mode if you experience something unexpected. Unfortunately, activating/deactivating this mode still halts all UI, so either 1. Activate/deactivate Protected UI Mode and then restart the game at the operating system level. E.g. Task Manager, Steam, etc. OR 2. Activate/deactivate Protected UI Mode BEFORE this mod is activated.
+- Tweak: The Object List sections (e.g. Owned Ships, Other Ships, etc.) are now expandable/collapsible.
+- Tweak: Work-in-progress/trial: Manual saves are delayed by 5 seconds while the game is paused (to ensure all running scripts and their chained calls are stoped) before the actual save operation. kuertee's note: I started to experience trouble with my oldest saved game that I started on v4.2 (2020) of the base game in which loaded saves were not loading their data as if I had removed a mod, when I had not. I think with some of my mods (e.g. several personal mods that capture game data as I play, etc.), the serialisation of the data fails to save without giving errors until it is loaded after a very long playtime. I added this as a long-term trial. It has no effect in the game apart from manual saves are delayed for 5 seconds, at which time the game is paused. Autosaves are unaffected with this change.
 
 FOR MODDERS:
-- New feature: in gameoptions for the controls management by ChemODun.
-- New feature: Deactivating a mod in the Settings > Extensions menu triggers the UI event "uix_deactivate_mod" with the mod's id. Listen for this event at the mod's MD to, for example, destroy npcs, cancel scripts, etc. More information is in the "Options Menu: Deactivating a mod" section.
-- New feature: uix_addUIXPropertyOwnedTab() adds new category tabs in the Property Owned section. E.g. my mods Crime has Consequences mod, Emergent Missions mod, Military Exercises mod, and Wear and Tear mod use this to add their category tabs. More information is in the "Map Menu: Custom Property Owned category tabs".
+- New feature: Ship Configuration menu: new callback by Joul.
+- Tweak: ChemODun hotkeys: enhance input remapping callbacks.
 
 Protected UI Mode
 =================
@@ -314,7 +314,7 @@ Uninstall
 Summary: Load the save; Deactivate from the menu; Save the game (This is the "deactivated mod" save.); Exit the game; Load the "deactivate mod" save; Save the game (This is the "clean" save).
 
 1. Load a game that contains the running mod.
-2. Move away from nearby stations where station data is shown in the Information panel.
+2. Move away from nearby stations where station data is no longer shown in the Information panel.
 3. Deactivate the mod from the Settings > Extensions menu. This safely removes objects (missions, npcs, etc.) the scripts created and then safely cancels the scripts. Its Extension Options, if one exists, should be blank.
 4. Save the game. This is the "deactivated mod" save. This still contains the deactivated scripts and zeroed data because the mod still "exists" in the game environment. They are simply deactivated and zeroed.
 5. Exit the game.
@@ -336,6 +336,15 @@ French localisation by Calvitix.
 
 History
 =======
+v9.0.0.6, 27 Jun 2026:
+FOR PLAYERS:
+- Protected UI Mode: I've been playing with Protected UI Mode active for the last 3 weeks with no adverse effects. I now recommend that this mode is active and that the pop-up message about disabling it is ignored. Only deactivate this mode if you experience something unexpected. Unfortunately, activating/deactivating this mode still halts all UI, so either 1. Activate/deactivate Protected UI Mode and then restart the game at the operating system level. E.g. Task Manager, Steam, etc. OR 2. Activate/deactivate Protected UI Mode BEFORE this mod is activated.
+
+FOR MODDERS:
+- New feature: in gameoptions for the controls management by ChemODun.
+- New feature: Deactivating a mod in the Settings > Extensions menu triggers the UI event "uix_deactivate_mod" with the mod's id. Listen for this event at the mod's MD to, for example, destroy npcs, cancel scripts, etc. More information is in the "Options Menu: Deactivating a mod" section.
+- New feature: uix_addUIXPropertyOwnedTab() adds new category tabs in the Property Owned section. E.g. my mods Crime has Consequences mod, Emergent Missions mod, Military Exercises mod, and Wear and Tear mod use this to add their category tabs. More information is in the "Map Menu: Custom Property Owned category tabs".
+
 v9.0.0.5, 19 Jun 2026:
 - Bug-fix: In Map Menu > Select Object mode (e.g. selecting a navigation beacon for HQ teleportation), the +/- buttons for the deployables were broken.
 
