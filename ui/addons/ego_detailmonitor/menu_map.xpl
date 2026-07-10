@@ -9457,7 +9457,7 @@ function menu.createPropertySection(instance, id, ftable, name, array, nonetext,
 		local row = ftable:addRow(true, Helper.headerRowProperties)
 		row[2]:setColSpan(4 + maxicons):createText(name, Helper.headerRowCenteredProperties)
 		local uix_isExpanded = __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
-		row[1]:createButton({ scaling = false, height = Helper.headerRowCenteredProperties.minRowHeight }):setText(uix_isExpanded and "-" or "+", { scaling = true, halign = "center" })
+		row[1]:createButton({ height = Helper.headerRowCenteredProperties.minRowHeight }):setText(uix_isExpanded and "-" or "+", { scaling = true, halign = "center" })
 		row[1].handlers.onClick = function ()
 			__userdata_uix_menu_map.savedCollapsedObjectListSections[name] = not __userdata_uix_menu_map.savedCollapsedObjectListSections[name]
 			menu.refreshInfoFrame()
