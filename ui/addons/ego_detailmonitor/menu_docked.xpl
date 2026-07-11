@@ -741,6 +741,25 @@ function menu.display()
 						row[7 + j].handlers.onClick = function() menu.checkboxWeaponGroup(menu.currentplayership, weapon, false, j, not uiweapongroups.secondary[j]) end
 					end
 					titlerow[1].properties.helpOverlayHeight = titlerow[1].properties.helpOverlayHeight + row:getHeight() + Helper.borderSize
+					-- start: kuertee call-back
+					if menu.uix_callbacks ["display_on_after_weaponconfig_weapon_row"] then
+						local uix_context = {
+							menu = menu,
+							table_header = table_header,
+							titlerow = titlerow,
+							currentplayership = menu.currentplayership,
+							pilot = pilot,
+							weapons = weapons,
+							weapon = weapon,
+							index = i,
+							weaponrow = row,
+							uiweapongroups = uiweapongroups
+						}
+						for uix_id, uix_callback in pairs (menu.uix_callbacks ["display_on_after_weaponconfig_weapon_row"]) do
+							uix_callback (uix_context)
+						end
+					end
+					-- end: kuertee call-back
 
 					if C.IsComponentClass(weapon, "missilelauncher") then
 						local nummissiletypes = C.GetNumAllMissiles(menu.currentplayership)
