@@ -2,18 +2,15 @@ UI Extensions and HUD
 https://www.nexusmods.com/x4foundations/mods/552
 Code: https://github.com/kuertee/x4-mod-ui-extensions
 by kuertee.
-Contributors: AlexandreTK, ChemODun, Damonya, DrWhoKnows, DmytroK, Erixon, Faremen, Forleyor, Joul, HYLT2233, IALuir, Mycu, Runekn, sticeIO.
+Contributors: Alakeram, AlexandreTK, ChemODun, Damonya, DrWhoKnows, 
+DmytroK, Erixon, Faremen, Forleyor, HYLT2233,
+IALuir, Mycu, Orbika, Runekn, sticeIO.
 
 Updates
 =======
-v9.0.0.7, 4 Jul 2026:
-FOR PLAYERS:
-- Tweak: The Object List sections (e.g. Owned Ships, Other Ships, etc.) are now expandable/collapsible.
-- Tweak: Work-in-progress/trial: Manual saves are delayed by 5 seconds while the game is paused (to ensure all running scripts and their chained calls are stoped) before the actual save operation. kuertee's note: I started to experience trouble with my oldest saved game that I started on v4.2 (2020) of the base game in which loaded saves were not loading their data as if I had removed a mod, when I had not. I think with some of my mods (e.g. several personal mods that capture game data as I play, etc.), the serialisation of the data fails to save without giving errors until it is loaded after a very long playtime. I added this as a long-term trial. It has no effect in the game apart from manual saves are delayed for 5 seconds, at which time the game is paused. Autosaves are unaffected with this change.
-
+v9.0.0.8, 11 Jul 2026:
 FOR MODDERS:
-- New feature: Ship Configuration menu: new callback by Joul.
-- Tweak: ChemODun hotkeys: enhance input remapping callbacks.
+- New feature: Docked menu: new callback by Alakeram for his upcoming mod.
 
 Protected UI Mode
 =================
@@ -331,11 +328,22 @@ Troubleshooting
 Credits
 =======
 kuertee
-Contributors: AlexandreTK, ChemODun, Damonya, DrWhoKnows, DmytroK, Erixon, Faremen, Forleyor, HYLT2233, IALuir, Mycu, Runekn, sticeIO.
+Contributors: Alakeram, AlexandreTK, ChemODun, Damonya, DrWhoKnows, 
+DmytroK, Erixon, Faremen, Forleyor, HYLT2233,
+IALuir, Mycu, Orbika, Runekn, sticeIO.
 French localisation by Calvitix.
 
 History
 =======
+v9.0.0.7, 4 Jul 2026:
+FOR PLAYERS:
+- Tweak: The Object List sections (e.g. Owned Ships, Other Ships, etc.) are now expandable/collapsible.
+- Tweak: Work-in-progress/trial: Manual saves are delayed by 5 seconds while the game is paused (to ensure all running scripts and their chained calls are stoped) before the actual save operation. kuertee's note: I started to experience trouble with my oldest saved game that I started on v4.2 (2020) of the base game in which loaded saves were not loading their data as if I had removed a mod, when I had not. I think with some of my mods (e.g. several personal mods that capture game data as I play, etc.), the serialisation of the data fails to save without giving errors until it is loaded after a very long playtime. I added this as a long-term trial. It has no effect in the game apart from manual saves are delayed for 5 seconds, at which time the game is paused. Autosaves are unaffected with this change.
+
+FOR MODDERS:
+- New feature: Ship Configuration menu: new callback by Joul.
+- Tweak: ChemODun hotkeys: enhance input remapping callbacks.
+
 v9.0.0.6, 27 Jun 2026:
 FOR PLAYERS:
 - Protected UI Mode: I've been playing with Protected UI Mode active for the last 3 weeks with no adverse effects. I now recommend that this mode is active and that the pop-up message about disabling it is ignored. Only deactivate this mode if you experience something unexpected. Unfortunately, activating/deactivating this mode still halts all UI, so either 1. Activate/deactivate Protected UI Mode and then restart the game at the operating system level. E.g. Task Manager, Steam, etc. OR 2. Activate/deactivate Protected UI Mode BEFORE this mod is activated.
