@@ -14413,6 +14413,11 @@ Helper.equipmentStats = {
 }
 
 function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upgradeplan)
+	-- kuertee start: callback
+	Helper.uix_equipmentInfoMenu = menu
+	Helper.uix_equipmentInfoColumns = 3
+	-- kuertee end: callback
+
 	local data = menu.equipmentData.mouse or menu.equipmentData.keyboard
 
 	local upgradetype = Helper.findUpgradeType(data.type)
@@ -14428,7 +14433,30 @@ function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upg
 
 	if data.macro and (data.macro ~= "") then
 		local macro = data.macro
-		local ftable = frame:addTable(3, {
+
+		-- kuertee start: callback
+		local uix_col3percent, uix_col4percent = 33, nil
+		if menu.uix_callbacks and menu.uix_callbacks["createEquipmentInfoContext_on_create_frame"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["createEquipmentInfoContext_on_create_frame"]) do
+				local uix_result = uix_callback({ menu = menu, frame = frame, macro = macro })
+				if uix_result then
+					if uix_result.framewidth then
+						frame.properties.width = uix_result.framewidth
+					end
+					if uix_result.col3percent then
+						uix_col3percent = uix_result.col3percent
+					end
+					if uix_result.col4percent then
+						uix_col4percent = uix_result.col4percent
+					end
+				end
+			end
+		end
+		local uix_numcols = uix_col4percent and 4 or 3
+		Helper.uix_equipmentInfoColumns = uix_numcols
+		-- local ftable = frame:addTable(3, {
+		local ftable = frame:addTable(uix_numcols, {
+		-- kuertee end: callback
 			tabOrder = 0,
 			reserveScrollBar = false,
 			highlightMode = "off",
@@ -14438,6 +14466,14 @@ function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upg
 		})
 		ftable:setColWidth(1, Helper.scaleY(2 * Helper.standardTextHeight) + Helper.standardContainerOffset, false)
 		ftable:setColWidthPercent(3, 33)
+		-- kuertee start: callback
+		if uix_col3percent ~= 33 then
+			ftable:setColWidthPercent(3, uix_col3percent)
+		end
+		if uix_col4percent then
+			ftable:setColWidthPercent(4, uix_col4percent)
+		end
+		-- kuertee end: callback
 
 		local name, infolibrary = GetMacroData(macro, "name", "infolibrary")
 		local librarydata = GetLibraryEntry(infolibrary, macro)
@@ -14523,6 +14559,11 @@ function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upg
 
 		local row = ftable:addRow(nil, { fixed = true })
 		row[1]:setColSpan(3):createText(name, Helper.tabTitleTextProperties)
+		-- kuertee start: callback
+		if uix_numcols > 3 then
+			row[1]:setColSpan(uix_numcols)
+		end
+		-- kuertee end: callback
 		row[1].properties.fontsize = Helper.headerRow1FontSize
 		row[1].properties.halign = "left"
 
@@ -14587,6 +14628,14 @@ function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upg
 			end
 		end
 
+		-- kuertee start: callback
+		if menu.uix_callbacks and menu.uix_callbacks["createEquipmentInfoContext_on_before_stats"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["createEquipmentInfoContext_on_before_stats"]) do
+				uix_callback({ menu = menu, ftable = backgroundrowgroup, rowgroup = backgroundrowgroup, macro = macro, infolibrary = infolibrary, librarydata = librarydata, numcols = uix_numcols })
+			end
+		end
+		-- kuertee end: callback
+
 		local rowparent = backgroundrowgroup
 		if infolibrary == "enginetypes" then
 			for _, entry in ipairs(Helper.equipmentStats.engine) do
@@ -14615,6 +14664,14 @@ function Helper.createEquipmentInfoContext(menu, frame, object, objectmacro, upg
 				end
 			end
 		end
+
+		-- kuertee start: callback
+		if menu.uix_callbacks and menu.uix_callbacks["createEquipmentInfoContext_on_after_stats"] then
+			for uix_id, uix_callback in pairs(menu.uix_callbacks["createEquipmentInfoContext_on_after_stats"]) do
+				uix_callback({ menu = menu, ftable = backgroundrowgroup, rowgroup = backgroundrowgroup, rowparent = rowparent, macro = macro, infolibrary = infolibrary, librarydata = librarydata, price = data.price, numcols = uix_numcols })
+			end
+		end
+		-- kuertee end: callback
 	elseif data.software then
 		local software = data.software
 		local ftable = frame:addTable(2, {
@@ -14758,9 +14815,33 @@ function Helper.addEquipmentInfoRow(ftable, rowparent, entry, value, installedva
 			row[1].properties.halign = "left"
 			rowparent = ftable:addRowGroup({  })
 		else
+			-- kuertee start: callback
+			local uix_extravalue, uix_comparecolumn = "", nil
+			local uix_menu = Helper.uix_equipmentInfoMenu
+			if uix_menu and uix_menu.uix_callbacks and uix_menu.uix_callbacks["addEquipmentInfoRow_on_create_value"] then
+				for uix_id, uix_callback in pairs(uix_menu.uix_callbacks["addEquipmentInfoRow_on_create_value"]) do
+					local uix_result = uix_callback(entry, value, installedvalue)
+					if uix_result then
+						if uix_result.extravalue then
+							uix_extravalue = uix_extravalue .. uix_result.extravalue
+						end
+						if uix_result.comparecolumn then
+							uix_comparecolumn = uix_result.comparecolumn
+						end
+					end
+				end
+			end
+			-- kuertee end: callback
+
 			local row = rowparent:addRow(nil, { fixed = true, bgColor = entry.standalone and Color["row_background_container"] or Color["row_background_container2"] })
 			row[1]:setBackgroundColSpan(3):setColSpan(2):createText(entry.name)
-			row[3]:createText(icon .. (entry.prefix and (entry.prefix .. " ") or "") .. textvalue .. (unit and (" " .. unit) or ""), { halign = "right", color = color })
+			-- kuertee start: callback
+			-- row[3]:createText(icon .. (entry.prefix and (entry.prefix .. " ") or "") .. textvalue .. (unit and (" " .. unit) or ""), { halign = "right", color = color })
+			row[3]:createText(icon .. (entry.prefix and (entry.prefix .. " ") or "") .. textvalue .. (unit and (" " .. unit) or "") .. uix_extravalue, { halign = "right", color = color })
+			if uix_comparecolumn and ((Helper.uix_equipmentInfoColumns or 3) >= 4) then
+				row[4]:createText(uix_comparecolumn, { halign = "right" })
+			end
+			-- kuertee end: callback
 		end
 	end
 	return rowparent
