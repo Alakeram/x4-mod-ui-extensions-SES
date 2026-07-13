@@ -5763,7 +5763,7 @@ function menu.displaySlots(frame, firsttime)
 
 											-- alakeram start: callback
 											if uix_onclick then
-												row[column].handlers.onClick = onclick
+												row[column].handlers.onClick = uix_onclick
 											elseif useable then
 											-- alakeram end: callback
 
@@ -6082,7 +6082,7 @@ function menu.displaySlots(frame, firsttime)
 
 							-- alakeram start: callback
 							if uix_onclick then
-								row[column].handlers.onClick = onclick
+								row[column].handlers.onClick = uix_onclick
 							elseif useable then
 							-- alakeram end: callback
 
