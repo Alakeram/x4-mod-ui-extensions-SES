@@ -4089,7 +4089,7 @@ function menu.getDataAndDisplay(upgradeplan, crew, newedit, firsttime, noundo, s
 		end
 	end
 
-	-- kuertee start: callback
+	-- alakeram start: callback
 	if menu.uix_callbacks["getDataAndDisplay_on_assemble_possible_upgrades"] then
 		for uix_id, uix_callback in pairs(menu.uix_callbacks["getDataAndDisplay_on_assemble_possible_upgrades"]) do
 			local callbackresult = uix_callback({
@@ -4104,7 +4104,8 @@ function menu.getDataAndDisplay(upgradeplan, crew, newedit, firsttime, noundo, s
 			end
 		end
 	end
-	-- kuertee end: callback
+	-- alakeram end: callback
+
 	-- sort
 	for _, upgradetype in ipairs(Helper.upgradetypes) do
 		if upgradetype.supertype ~= "group" then
@@ -5715,8 +5716,9 @@ function menu.displaySlots(frame, firsttime)
 
 											local active = ((group[i].macro == plandata.macro) or (not hasmod))
 											local useable = hasstock and haslicence
-											local onclick
-											-- kuertee start: callback
+
+											-- alakeram start: callback
+											local uix_onclick
 											if menu.uix_callbacks["displaySlots_on_create_upgrade_button"] then
 												for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_create_upgrade_button"]) do
 													local callbackresult = uix_callback({
@@ -5735,11 +5737,12 @@ function menu.displaySlots(frame, firsttime)
 														if callbackresult.useable ~= nil then useable = callbackresult.useable end
 														if callbackresult.mouseovertext ~= nil then mouseovertext = callbackresult.mouseovertext end
 														if callbackresult.extratext ~= nil then extraText = callbackresult.extratext end
-														if callbackresult.onclick ~= nil then onclick = callbackresult.onclick end
+														if callbackresult.onclick ~= nil then uix_onclick = callbackresult.onclick end
 													end
 												end
 											end
-											-- kuertee end: callback
+											-- alakeram end: callback
+
 											local overlayid
 											if group[i].macro == "" then
 												overlayid = "shipconfig_upgrade_empty"
@@ -5757,9 +5760,13 @@ function menu.displaySlots(frame, firsttime)
 												helpOverlayHighlightOnly = true,
 											}):setIcon(group[i].icon):setIcon2(installicon, { color = installcolor }):setText(icon, { y = maxColumnWidth / 2 - Helper.scaleY(Helper.standardTextHeight) / 2 - Helper.configButtonBorderSize, halign = "right", color = overridecolor, fontsize = Helper.scaleFont(Helper.standardFont, Helper.standardFontSize) }):setText2(weaponicon, { x = 3, y = -maxColumnWidth / 2 + Helper.scaleY(Helper.standardTextHeight) / 2 + Helper.configButtonBorderSize, fontsize = Helper.scaleFont(Helper.standardFont, Helper.standardFontSize) })
 											menu.equipmentMacroData[row.index * 1000 + column] = { macro = group[i].macro, hasmod = hasmod, price = price, type = upgradetype2.type }
-											if onclick then
+
+											-- alakeram start: callback
+											if uix_onclick then
 												row[column].handlers.onClick = onclick
 											elseif useable then
+											-- alakeram end: callback
+
 												row[column].handlers.onClick = function () return menu.buttonSelectGroupUpgrade(upgradetype2.type, menu.currentSlot, group[i].macro, row.index, column) end
 											end
 											if group[i].macro ~= "" then
@@ -6028,8 +6035,9 @@ function menu.displaySlots(frame, firsttime)
 
 							local active = ((group[i].macro == plandata.macro) or (not hasmod))
 							local useable = hasstock and haslicence
-							local onclick
-							-- kuertee start: callback
+
+							-- alakeram start: callback
+							local uix_onclick
 							if menu.uix_callbacks["displaySlots_on_create_upgrade_button"] then
 								for uix_id, uix_callback in pairs(menu.uix_callbacks["displaySlots_on_create_upgrade_button"]) do
 									local callbackresult = uix_callback({
@@ -6048,11 +6056,12 @@ function menu.displaySlots(frame, firsttime)
 										if callbackresult.useable ~= nil then useable = callbackresult.useable end
 										if callbackresult.mouseovertext ~= nil then mouseovertext = callbackresult.mouseovertext end
 										if callbackresult.extratext ~= nil then extraText = callbackresult.extratext end
-										if callbackresult.onclick ~= nil then onclick = callbackresult.onclick end
+										if callbackresult.onclick ~= nil then uix_onclick = callbackresult.onclick end
 									end
 								end
 							end
-							-- kuertee end: callback
+							-- alakeram end: callback
+
 							local overlayid
 							if group[i].macro == "" then
 								overlayid = "shipconfig_upgrade_empty"
@@ -6070,9 +6079,13 @@ function menu.displaySlots(frame, firsttime)
 								helpOverlayHighlightOnly = true,
 							}):setIcon(group[i].icon):setIcon2(installicon, { color = installcolor }):setText(icon, { y = maxColumnWidth / 2 - Helper.scaleY(Helper.standardTextHeight) / 2 - Helper.configButtonBorderSize, halign = "right", color = overridecolor, fontsize = Helper.scaleFont(Helper.standardFont, Helper.standardFontSize) }):setText2(weaponicon, { x = 3, y = -maxColumnWidth / 2 + Helper.scaleY(Helper.standardTextHeight) / 2 + Helper.configButtonBorderSize, fontsize = Helper.scaleFont(Helper.standardFont, Helper.standardFontSize) })
 							menu.equipmentMacroData[row.index * 1000 + column] = { macro = group[i].macro, hasmod = hasmod, price = price, type = upgradetype.type }
-							if onclick then
+
+							-- alakeram start: callback
+							if uix_onclick then
 								row[column].handlers.onClick = onclick
 							elseif useable then
+							-- alakeram end: callback
+
 								row[column].handlers.onClick = function () return menu.buttonSelectUpgradeMacro(menu.upgradetypeMode, menu.currentSlot, group[i].macro, row.index, column, nil, (menu.mode == "customgamestart") or (menu.mode == "comparison")) end
 							end
 							if group[i].macro ~= "" then
