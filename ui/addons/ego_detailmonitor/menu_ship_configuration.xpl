@@ -2854,10 +2854,29 @@ function menu.onShowMenu(state)
 		for i = #menu.selectableships, 1, -1 do
 			local hasloop = ffi.new("bool[1]", 0)
 			C.GetOrderQueueFirstLoopIdx(menu.selectableships[i], hasloop)
+			local ownerfactionid = ffi.string(C.GetOwnerDetails(menu.selectableships[i]).factionID)
+			local ownerallowed = ownerfactionid == "player"
+
+			-- alakeram start: callback
+			if menu.uix_callbacks["onShowMenu_on_check_selectable_ship_owner"] then
+				for uix_id, uix_callback in pairs(menu.uix_callbacks["onShowMenu_on_check_selectable_ship_owner"]) do
+					local callbackresult = uix_callback({
+						ship = menu.selectableships[i],
+						mode = menu.mode,
+						isreadonly = menu.isReadOnly,
+						ownerfactionid = ownerfactionid,
+						ownerallowed = ownerallowed,
+					})
+					if callbackresult and callbackresult.ownerallowed then
+						ownerallowed = true
+					end
+				end
+			end
+			-- alakeram end: callback
 
 			if (not menu.isReadOnly) and (not C.CanContainerEquipShip(menu.container, menu.selectableships[i])) and (not C.CanContainerSupplyShip(menu.container, menu.selectableships[i])) then
 				table.remove(menu.selectableships, i)
-			elseif ffi.string(C.GetOwnerDetails(menu.selectableships[i]).factionID) ~= "player" then
+			elseif not ownerallowed then
 				table.remove(menu.selectableships, i)
 			elseif menu.selectableships[i] == C.GetPlayerOccupiedShipID() then
 				menu.object = menu.selectableships[i]
