@@ -2854,10 +2854,11 @@ function menu.onShowMenu(state)
 		for i = #menu.selectableships, 1, -1 do
 			local hasloop = ffi.new("bool[1]", 0)
 			C.GetOrderQueueFirstLoopIdx(menu.selectableships[i], hasloop)
+
+			-- alakeram start: callback
 			local ownerfactionid = ffi.string(C.GetOwnerDetails(menu.selectableships[i]).factionID)
 			local ownerallowed = ownerfactionid == "player"
 
-			-- alakeram start: callback
 			if menu.uix_callbacks["onShowMenu_on_check_selectable_ship_owner"] then
 				for uix_id, uix_callback in pairs(menu.uix_callbacks["onShowMenu_on_check_selectable_ship_owner"]) do
 					local callbackresult = uix_callback({
